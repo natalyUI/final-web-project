@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>דלת עבודות קודמות</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background: #cfefff;
+      text-align: center;
+    }
+
+    .home-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #edf7fb;
+      color: #34505d;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 50px 20px 100px;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #4e6d7a;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #36525f;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 80px 60px;
+      justify-items: center;
+    }
+
+    .frame {
+      position: relative;
+      width: 700px;
+      height: 520px;
+    }
+
+    .frame-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .art {
+      position: absolute;
+      z-index: 1;
+      object-fit: contain;
+    }
+
+    /* art1 - הצבעוני הכהה */
+    .art1 {
+      top: 128px;
+      left: 200px;
+      width: 300px;
+      height: 245px;
+    }
+
+    /* art2 - פינגווין */
+    .art2 {
+      top: 112px;
+      left: 168px;
+      width: 360px;
+      height: 290px;
+    }
+
+    /* art3 - נוף */
+    .art3 {
+      top: 145px;
+      left: 148px;
+      width: 405px;
+      height: 220px;
+    }
+
+    /* art4 - זאב */
+    .art4 {
+      top: 116px;
+      left: 165px;
+      width: 365px;
+      height: 285px;
+    }
+
+    /* art5 - חמנייה */
+    .art5 {
+      top: 148px;
+      left: 145px;
+      width: 410px;
+      height: 225px;
+    }
+
+    /* art6 - דיוקן כחול */
+    .art6 {
+      top: 148px;
+      left: 145px;
+      width: 410px;
+      height: 225px;
+    }
+
+    @media (max-width: 1100px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .frame {
+        width: 560px;
+        height: 416px;
+      }
+
+      .art1, .art2, .art3, .art4, .art5, .art6 {
+        transform: scale(0.8);
+        transform-origin: top left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="../index.html" class="home-button">חזרה לבית</a>
+
+  <div class="container">
+    <h1>דלת עבודות קודמות</h1>
+    <p>
+      החדר הזה הוא גלריה לעבודות קודמות שלי — ציורים
+      ורגעים מתוך הדרך היצירתית שלי.
+    </p>
+
+    <div class="gallery">
+
+      <div class="frame">
+        <img class="art art1" src="../assets/gallery/art1.jpg" alt="art1">
+        <img class="frame-bg" src="../assets/img/gallery-frame.png" alt="frame">
+      </div>
+
+      <div class="frame">
+        <img class="art art2" src="../assets/gallery/art2.jpg" alt="art2">
+        <img class="frame-bg" src="../assets/img/gallery-frame.png" alt="frame">
+      </div>
+
+      <div class="frame">
+        <img class="art art3" src="../assets/gallery/art3.jpg" alt="art3">
+        <img class="frame-bg" src="../assets/img/gallery-frame.png" alt="frame">
+      </div>
+
+      <div class="frame">
+        <img class="art art4" src="../assets/gallery/art4.jpg" alt="art4">
+        <img class="frame-bg" src="../assets/img/gallery-frame.png" alt="frame">
+      </div>
+
+      <div class="frame">
+        <img class="art art5" src="../assets/gallery/art5.jpg" alt="art5">
+        <img class="frame-bg" src="../assets/img/gallery-frame.png" alt="frame">
+      </div>
+
+      <div class="frame">
+        <img class="art art6" src="../assets/gallery/art6.jpg" alt="art6">
+        <img class="frame-bg" src="../assets/img/gallery-frame.png" alt="frame">
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

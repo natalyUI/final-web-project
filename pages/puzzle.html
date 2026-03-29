@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>חדר הפאזל</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background: #111820;
+      color: white;
+      text-align: center;
+    }
+
+    .home-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #edf7fb;
+      color: #34505d;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 50px 20px 80px;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: #c8e5f0;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #d7e8ef;
+      line-height: 1.8;
+      max-width: 800px;
+      margin: 0 auto 30px;
+    }
+
+    .status-text {
+      margin-top: 10px;
+      margin-bottom: 25px;
+      font-size: 18px;
+      color: #c8e5f0;
+      min-height: 28px;
+    }
+
+    .puzzle-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+      margin-top: 30px;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.06);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      color: #c8e5f0;
+      font-size: 28px;
+    }
+
+    .slots,
+    .pieces {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 20px;
+      direction: ltr;
+    }
+
+    .slot {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border: 3px dashed rgba(255,255,255,0.25);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      transition: 0.2s ease;
+      overflow: hidden;
+    }
+
+    .slot.correct {
+      border-style: solid;
+      border-color: #c8e5f0;
+      box-shadow: 0 0 0 2px rgba(200,229,240,0.2);
+    }
+
+    .piece {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 16px;
+      background-image: url("../assets/img/puzzle-misty.jpg");
+      background-size: 200% 200%;
+      background-repeat: no-repeat;
+      background-color: rgba(255,255,255,0.08);
+      cursor: grab;
+      border: 2px solid rgba(255,255,255,0.15);
+      box-sizing: border-box;
+      transition: 0.2s ease;
+    }
+
+    .piece:active {
+      cursor: grabbing;
+    }
+
+    .piece.selected-piece {
+      border-color: #edf7fb;
+      box-shadow: 0 0 0 3px rgba(237,247,251,0.25);
+      transform: scale(0.98);
+    }
+
+    .success-box {
+      display: none;
+      margin-top: 30px;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(200,229,240,0.12);
+    }
+
+    .success-box h3 {
+      margin-top: 0;
+      color: #c8e5f0;
+      font-size: 28px;
+    }
+
+    .success-box a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 22px;
+      background: #edf7fb;
+      color: #34505d;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 850px) {
+      .puzzle-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body data-page="puzzle">
+
+  <a href="../index.html" class="home-button">חזרה לבית</a>
+
+  <div class="container">
+    <h1>חדר הפאזל</h1>
+    <p>
+      לפני שנכנסים לחדר של Ren’Py, צריך להרכיב את מיסטי מחדש.
+      גררי את ארבעת החלקים למקום הנכון.
+    </p>
+
+    <div class="status-text" id="statusText">הפאזל עדיין לא נפתר.</div>
+
+    <div class="puzzle-layout">
+      <div class="panel">
+        <h2>הלוח</h2>
+        <div class="slots" id="slotBoard" dir="ltr">
+          <div class="slot" data-slot="0"></div>
+          <div class="slot" data-slot="1"></div>
+          <div class="slot" data-slot="2"></div>
+          <div class="slot" data-slot="3"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>החלקים</h2>
+        <div class="pieces" id="piecePool" dir="ltr">
+          <div class="piece" draggable="true" data-piece="0" style="background-position: 0% 0%;"></div>
+          <div class="piece" draggable="true" data-piece="1" style="background-position: 100% 0%;"></div>
+          <div class="piece" draggable="true" data-piece="2" style="background-position: 0% 100%;"></div>
+          <div class="piece" draggable="true" data-piece="3" style="background-position: 100% 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-box" id="successBox">
+      <h3>מיסטי חזרה לעצמה ✨</h3>
+      <p>הדלת נפתחה. עכשיו אפשר להיכנס לחדר של Ren’Py.</p>
+      <a href="renpy.html">להיכנס לחדר Ren’Py</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const pieces = document.querySelectorAll(".piece");
+      const slots = document.querySelectorAll(".slot");
+      const pool = document.getElementById("piecePool");
+      const successBox = document.getElementById("successBox");
+      const statusText = document.getElementById("statusText");
+
+      let selectedPiece = null;
+
+      function clearSelectedPiece() {
+        pieces.forEach((piece) => piece.classList.remove("selected-piece"));
+        selectedPiece = null;
+      }
+
+      function showSolvedState() {
+        successBox.style.display = "block";
+        statusText.textContent = "הפאזל נפתר. אפשר להיכנס לחדר Ren’Py.";
+      }
+
+      function hideSolvedState() {
+        successBox.style.display = "none";
+        statusText.textContent = "הפאזל עדיין לא נפתר.";
+      }
+
+      function checkPuzzleWin() {
+        let correctCount = 0;
+
+        slots.forEach((slot) => {
+          slot.classList.remove("correct");
+
+          const placedPiece = slot.querySelector(".piece");
+          if (!placedPiece) return;
+
+          const expected = slot.dataset.slot;
+          const actual = placedPiece.dataset.piece;
+
+          if (expected === actual) {
+            correctCount++;
+            slot.classList.add("correct");
+          }
+        });
+
+        if (correctCount === 4) {
+          showSolvedState();
+        } else {
+          hideSolvedState();
+        }
+      }
+
+      function movePieceToSlot(piece, slot) {
+        if (!piece || !slot) return;
+
+        const sourceParent = piece.parentElement;
+        const existingPiece = slot.querySelector(".piece");
+
+        if (existingPiece && existingPiece !== piece) {
+          if (sourceParent && sourceParent.classList.contains("slot")) {
+            sourceParent.appendChild(existingPiece);
+          } else {
+            pool.appendChild(existingPiece);
+          }
+        }
+
+        slot.appendChild(piece);
+        checkPuzzleWin();
+      }
+
+      function movePieceToPool(piece) {
+        if (!piece) return;
+        pool.appendChild(piece);
+        checkPuzzleWin();
+      }
+
+      function allowDrop(e) {
+        e.preventDefault();
+      }
+
+      pieces.forEach((piece) => {
+        piece.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", piece.dataset.piece);
+        });
+
+        piece.addEventListener("click", () => {
+          if (selectedPiece === piece) {
+            clearSelectedPiece();
+            return;
+          }
+
+          clearSelectedPiece();
+          selectedPiece = piece;
+          piece.classList.add("selected-piece");
+        });
+      });
+
+      pool.addEventListener("dragover", allowDrop);
+      pool.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const pieceId = e.dataTransfer.getData("text/plain");
+        const piece = document.querySelector('.piece[data-piece="' + pieceId + '"]');
+
+        if (piece) {
+          movePieceToPool(piece);
+        }
+      });
+
+      pool.addEventListener("click", () => {
+        if (selectedPiece) {
+          movePieceToPool(selectedPiece);
+          clearSelectedPiece();
+        }
+      });
+
+      slots.forEach((slot) => {
+        slot.addEventListener("dragover", allowDrop);
+
+        slot.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const pieceId = e.dataTransfer.getData("text/plain");
+          const piece = document.querySelector('.piece[data-piece="' + pieceId + '"]');
+
+          if (piece) {
+            movePieceToSlot(piece, slot);
+          }
+        });
+
+        slot.addEventListener("click", () => {
+          if (selectedPiece) {
+            movePieceToSlot(selectedPiece, slot);
+            clearSelectedPiece();
+          }
+        });
+      });
+
+      hideSolvedState();
+      checkPuzzleWin();
+    });
+  </script>
+</body>
+</html>
