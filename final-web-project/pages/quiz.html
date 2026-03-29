@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>הכר את היוצר</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background: #151515;
+      color: white;
+      text-align: center;
+    }
+
+    .home-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #edf7fb;
+      color: #34505d;
+      padding: 10px 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 60px 20px 100px;
+    }
+
+    h1 {
+      color: #c8e5f0;
+      font-size: 42px;
+      margin-bottom: 15px;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .menu button {
+      background: #edf7fb;
+      color: #34505d;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .screen {
+      display: none;
+      background: rgba(255,255,255,0.06);
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .question {
+      font-size: 28px;
+      color: #d9edf5;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .answer-btn {
+      background: #dceff7;
+      color: #28414d;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 18px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s ease;
+    }
+
+    .answer-btn:hover {
+      background: #c8e5f0;
+      transform: translateY(-1px);
+    }
+
+    .answer-btn.selected {
+      background: #8fb7c9;
+      color: #112a35;
+      border-color: #dff3fb;
+      box-shadow: 0 0 0 2px rgba(223,243,251,0.2);
+    }
+
+    .nav-buttons {
+      margin-top: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .nav-buttons button {
+      background: #edf7fb;
+      color: #34505d;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #resultText {
+      font-size: 22px;
+      line-height: 1.8;
+      color: #d7e8ef;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body data-page="quiz">
+
+  <a href="../index.html" class="home-button">חזרה לבית</a>
+
+  <div class="container">
+    <h1>הכר את היוצר</h1>
+
+    <div class="menu">
+      <button onclick="showScreen(0)">1</button>
+      <button onclick="showScreen(1)">2</button>
+      <button onclick="showScreen(2)">3</button>
+      <button onclick="showScreen(3)">4</button>
+      <button onclick="showScreen(4)">5</button>
+      <button onclick="showScreen(5)">6</button>
+      <button onclick="showScreen(6)">7</button>
+      <button onclick="showScreen(7)">8</button>
+      <button onclick="showScreen(8)">9</button>
+      <button onclick="showScreen(9)">10</button>
+      <button onclick="showResult()">תוצאה</button>
+    </div>
+
+    <div class="screen active">
+      <div class="question">כשאני יוצרת, אני הכי נמשכת ל...</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="0" data-value="dreamy" onclick="answerQuestion(0,'dreamy')">אווירה חלומית ומוזרה</button>
+        <button class="answer-btn" data-question="0" data-value="emotional" onclick="answerQuestion(0,'emotional')">טון אפל ורגשי</button>
+        <button class="answer-btn" data-question="0" data-value="chaotic" onclick="answerQuestion(0,'chaotic')">משחקיות, טוויסטים ותנועה</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">מה הכי חשוב לי בפרויקט?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="1" data-value="dreamy" onclick="answerQuestion(1,'dreamy')">הוויזואליה והאווירה</button>
+        <button class="answer-btn" data-question="1" data-value="emotional" onclick="answerQuestion(1,'emotional')">המשמעות והרגש</button>
+        <button class="answer-btn" data-question="1" data-value="chaotic" onclick="answerQuestion(1,'chaotic')">החוויה וההפתעה</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">אם הייתי חדר בבית הזה, הייתי...</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="2" data-value="dreamy" onclick="answerQuestion(2,'dreamy')">חדר שקט עם אור רך וסוד קטן</button>
+        <button class="answer-btn" data-question="2" data-value="emotional" onclick="answerQuestion(2,'emotional')">חדר כבד, אינטימי, עם זיכרונות</button>
+        <button class="answer-btn" data-question="2" data-value="chaotic" onclick="answerQuestion(2,'chaotic')">חדר מלא כאוס יצירתי וחפצים זזים</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">מה אני מחפשת שהקהל ירגיש?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="3" data-value="dreamy" onclick="answerQuestion(3,'dreamy')">סקרנות ושקט</button>
+        <button class="answer-btn" data-question="3" data-value="emotional" onclick="answerQuestion(3,'emotional')">שמישהו ראה את מה שבפנים</button>
+        <button class="answer-btn" data-question="3" data-value="chaotic" onclick="answerQuestion(3,'chaotic')">הלם, עניין ורצון להמשיך</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">מה הכי דומה לי?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="4" data-value="dreamy" onclick="answerQuestion(4,'dreamy')">חתולה שרואה הכול מהצד</button>
+        <button class="answer-btn" data-question="4" data-value="emotional" onclick="answerQuestion(4,'emotional')">זאב ביער בלילה</button>
+        <button class="answer-btn" data-question="4" data-value="chaotic" onclick="answerQuestion(4,'chaotic')">ניצוץ קטן שלא מפסיק לזוז</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">כשאני מתחילה פרויקט חדש, מה קורה קודם?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="5" data-value="dreamy" onclick="answerQuestion(5,'dreamy')">יש לי תמונה בראש ואני רצה לצייר אותה</button>
+        <button class="answer-btn" data-question="5" data-value="emotional" onclick="answerQuestion(5,'emotional')">יש לי תחושה שאני חייבת לבטא</button>
+        <button class="answer-btn" data-question="5" data-value="chaotic" onclick="answerQuestion(5,'chaotic')">אני מתחילה ומגלה תוך כדי מה זה נהיה</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">מה הכי מאפיין את הדרך שלי לעבוד?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="6" data-value="dreamy" onclick="answerQuestion(6,'dreamy')">אני מחפשת דיוק חזותי ואווירה</button>
+        <button class="answer-btn" data-question="6" data-value="emotional" onclick="answerQuestion(6,'emotional')">אני נותנת מקום למה שאני מרגישה</button>
+        <button class="answer-btn" data-question="6" data-value="chaotic" onclick="answerQuestion(6,'chaotic')">אני זורמת עם כאוס ויוצרת ממנו סדר</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">אם העבודה שלי הייתה רגע, היא הייתה...</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="7" data-value="dreamy" onclick="answerQuestion(7,'dreamy')">רגע שקט ומביט</button>
+        <button class="answer-btn" data-question="7" data-value="emotional" onclick="answerQuestion(7,'emotional')">רגע טעון שכמעט כואב</button>
+        <button class="answer-btn" data-question="7" data-value="chaotic" onclick="answerQuestion(7,'chaotic')">רגע מפתיע שמשנה כיוון</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">מה הכי מושך אותי ביצירה?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="8" data-value="dreamy" onclick="answerQuestion(8,'dreamy')">יופי, צבע, קומפוזיציה</button>
+        <button class="answer-btn" data-question="8" data-value="emotional" onclick="answerQuestion(8,'emotional')">עומק, משמעות, שכבות</button>
+        <button class="answer-btn" data-question="8" data-value="chaotic" onclick="answerQuestion(8,'chaotic')">דינמיות, משחק וטוויסט</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="nextScreen()">הבא</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">איך הייתי רוצה שהקהל יגיב לעבודה שלי?</div>
+      <div class="answers">
+        <button class="answer-btn" data-question="9" data-value="dreamy" onclick="answerQuestion(9,'dreamy')">“זה יפהפה ומיוחד”</button>
+        <button class="answer-btn" data-question="9" data-value="emotional" onclick="answerQuestion(9,'emotional')">“זה פגע בי במקום עמוק”</button>
+        <button class="answer-btn" data-question="9" data-value="chaotic" onclick="answerQuestion(9,'chaotic')">“מה קרה פה? אני חייב/ת לראות שוב”</button>
+      </div>
+      <div class="nav-buttons"><button onclick="prevScreen()">הקודם</button><button onclick="showResult()">סיימתי</button></div>
+    </div>
+
+    <div class="screen">
+      <div class="question">התוצאה שלך</div>
+      <p id="resultText">כאן תופיע התוצאה.</p>
+      <div class="nav-buttons"><button onclick="prevScreen()">חזרה</button></div>
+    </div>
+  </div>
+
+  <script src="../main.js"></script>
+</body>
+</html>
